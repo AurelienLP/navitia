@@ -762,8 +762,8 @@ void Worker::isochrone(const pbnavitia::JourneysRequest& request) {
     // Origins or destinations are already computed stop_points
     const auto& center =
         arg.isochrone_center ? *arg.isochrone_center : (arg.origins.empty() ? arg.destinations[0] : arg.origins[0]);
-    const auto& stop_points = arg.isochrone_center ? (arg.origins.empty() ? arg.destinations : arg.origins)
-                                                   : boost::optional<const std::vector<type::EntryPoint>&>{};
+    const auto& stop_points =
+        boost::make_optional(arg.isochrone_center, (arg.origins.empty() ? arg.destinations : arg.origins));
 
     navitia::routing::make_isochrone(this->pb_creator, *planner, center, request.datetimes(0), request.clockwise(),
                                      arg.accessibilite_params, arg.forbidden, arg.allowed, *street_network_worker,
